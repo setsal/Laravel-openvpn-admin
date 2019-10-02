@@ -7,8 +7,8 @@
                 <div class="card-body">
                     <ul class="nav flex-column" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" href="">
-                                    123
+                                <a class="nav-link" href="/admin/users">
+                                    管理者
                                 </a>
                             </li>
                     </ul>

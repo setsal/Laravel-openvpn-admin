@@ -15,14 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/admin', 'Admin\\AdminController@index');
+Route::get('/admin', 'Admin\\AdminController@index')->name('admin');
 
-Route::resource('admin/users', 'Admin\\UsersController');
-
-// Route::get('/admin', function () {
-//     return view('admin.dashboard');
-// });
+Route::resource('/admin/users', 'Admin\\UsersController')->middleware('auth');

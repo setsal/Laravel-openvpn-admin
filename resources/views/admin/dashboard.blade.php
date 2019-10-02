@@ -9,7 +9,7 @@
                     <div class="card-header">Dashboard</div>
 
                     <div class="card-body">
-                        Your application's dashboard.
+                        這傢伙很懶，什麼都沒有留下
                     </div>
                 </div>
         </div>
