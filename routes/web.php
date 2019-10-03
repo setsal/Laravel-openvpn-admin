@@ -22,3 +22,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin', 'Admin\\AdminController@index')->name('admin');
 
 Route::resource('/admin/users', 'Admin\\UsersController')->middleware('auth');
+Route::resource('/admin/radius/users', 'Radius\\RadCheckController')->middleware('auth');
