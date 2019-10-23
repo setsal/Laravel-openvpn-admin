@@ -30,16 +30,15 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>ID</th><th>UserName</th><th>Value</th><th>Actions</th>
+                                        <th>ID</th><th>UserName</th><th>Attribute</th><th>Value</th><th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($radius_users as $item)
                                     <tr>
                                         <td>{{ $item->id }}</td>
-                                        <td><a href="{{ url('/admin/radius/users', $item->id) }}">{{ $item->username }}</a></td><td>{{ $item->value }}</td>
+                                        <td><a href="{{ url('/admin/radius/users', $item->id . '/edit') }}">{{ $item->username }}</a></td><td>{{ $item->attribute }}</td><td>{{ $item->value }}</td>
                                         <td>
-                                            <a href="{{ url('/admin/radius/users/' . $item->id) }}" title="View User"><button class="btn btn-info btn-sm"><i class="fas fa-eye" aria-hidden="true"></i> view</button></a>
                                             <a href="{{ url('/admin/radius/users/' . $item->id . '/edit') }}" title="Edit User"><button class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true"></i> edit</button></a>
                                             {!! Form::open([
                                                 'method' => 'DELETE',
