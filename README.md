@@ -23,9 +23,16 @@ Now you can visit `localhost:8000` to see the welcome page!
 ## TODO
 ```
 - [o] Laravel Admin CRUD
-- [x] Connect with Radius
-- [x] Radius DB CRUD
+- [o] Connect with Radius
+- [o] Radius DB CRUD
+- [?] For future development :D
 ```
+
+## ScreenShot
+<figure class="half">
+    <img src="https://i.imgur.com/FXWZ0wB.png" />
+    <img src="https://i.imgur.com/ypd9d5E.png" />
+</figure>
 
 ## Contributor
 + setsal Lan
