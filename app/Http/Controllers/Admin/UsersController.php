@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -58,7 +59,7 @@ class UsersController extends Controller
         );
 
         $data = $request->except('password');
-        $data['password'] = bcrypt($request->password);
+        $data['password'] = Hash::make($request->password);
         $user = User::create($data);
         return redirect('admin/users')->with('flash_message', 'User added!');
     }
@@ -110,7 +111,7 @@ class UsersController extends Controller
 
         $data = $request->except('password');
         if ($request->has('password')) {
-            $data['password'] = bcrypt($request->password);
+            $data['password'] = Hash::make($request->password);
         }
 
         $user = User::findOrFail($id);

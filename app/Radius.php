@@ -30,5 +30,5 @@ class Radius extends Model
      *
      * @var array
      */
-    protected $fillable = ['username', 'value'];
+    protected $fillable = ['username', 'attribute', 'op', 'value'];
 }

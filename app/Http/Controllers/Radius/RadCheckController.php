@@ -20,7 +20,7 @@ class RadCheckController extends Controller
 
         if (!empty($keyword)) {
             $radius_users = Radius::where('username', 'LIKE', "%$keyword%")
-                ->latest()->paginate($perPage);
+                ->paginate($perPage);
         } else {
             $radius_users = Radius::paginate($perPage);
         }
@@ -35,7 +35,7 @@ class RadCheckController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        return view('admin.radius.create');
     }
 
     /**
@@ -47,19 +47,46 @@ class RadCheckController extends Controller
      */
     public function store(Request $request)
     {
-        // $this->validate(
-        //     $request,
-        //     [
-        //         'name' => 'required',
-        //         'email' => 'required|string|max:255|email|unique:users',
-        //         'password' => 'required'
-        //     ]
-        // );
+        if ( $request->attirbute = 'Auth-Type' ) {
+            $this->validate(
+                $request,
+                [
+                    'username' => 'required|string|unique:radius_mysql.radcheck',
+                    'attribute' => 'required|string|max:50|in:Crypt-Password,Cleartext-Password,Auth-Type'
+                ]
+            );
+        }
+        else {
+            $this->validate(
+                $request,
+                [
+                    'username' => 'required|string|unique:radius_mysql.radcheck',
+                    'attribute' => 'required|string|max:50|in:Crypt-Password,Cleartext-Password,Auth-Type',
+                    'value' => 'string|max:50'
+                ]
+            );
+        }
+    
 
-        // $data = $request->except('password');
-        // $data['password'] = bcrypt($request->password);
-        // $user = User::create($data);
-        return redirect('admin/users')->with('flash_message', 'User added!');
+        $data = $request->except('value');
+        switch($request->attribute){
+            case 'Cleartext-Password':
+                $data['value'] = $request->value;
+                break;
+            case 'Crypt-Password':
+                $data['value'] = crypt($request->value, '$1$'.uniqid());
+                break;
+            case 'Auth-Type':
+                $data['value'] = 'Reject';
+                break;
+            default:
+                return redirect('admin/radius/users')->with('flash_message', 'Something Wrong !');
+        }       
+
+        $data['op'] = ':=';
+        $radius_user = Radius::create($data);
+
+        return redirect('admin/radius/users')->with('flash_message', 'User added !');
     }
 
     /**
@@ -71,8 +98,9 @@ class RadCheckController extends Controller
      */
     public function show($id)
     {
-        $radius_users = Radius::findOrFail($id);
-        return view('admin.users.show', compact('radius_users'));
+        return view('welcome');
+        // $radius_users = Radius::findOrFail($id);
+        // return view('admin.radius.show', compact('radius_users'));
     }
 
     /**
@@ -84,8 +112,8 @@ class RadCheckController extends Controller
      */
     public function edit($id)
     {
-        // $user = User::select('id', 'name', 'email')->findOrFail($id);   
-        // return view('admin.users.edit', compact('user'));
+        $radius_user = Radius::select('id', 'username', 'attribute', 'value')->findOrFail($id);   
+        return view('admin.radius.edit', compact('radius_user'));
     }
 
     /**
@@ -98,22 +126,46 @@ class RadCheckController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $this->validate(
-        //     $request,
-        //     [
-        //         'name' => 'required',
-        //         'email' => 'required|string|max:255|email|unique:users,email,' . $id
-        //     ]
-        // );
+        if ( $request->attirbute = 'Auth-Type' ) {
+            $this->validate(
+                $request,
+                [
+                    'username' => 'required|string|max:20',
+                    'attribute' => 'required|string|in:Crypt-Password,Cleartext-Password,Auth-Type'
+                ]
+            );
+        }
+        else {
+            $this->validate(
+                $request,
+                [
+                    'username' => 'required|string|max:20',
+                    'attribute' => 'required|string|in:Crypt-Password,Cleartext-Password,Auth-Type',
+                    'value' => 'string|max:50'
+                ]
+            );
+        }
 
-        // $data = $request->except('password');
-        // if ($request->has('password')) {
-        //     $data['password'] = bcrypt($request->password);
-        // }
+        $data = $request->except('value');
+        switch($request->attribute){
+            case 'Cleartext-Password':
+                $data['value'] = $request->value;
+                break;
+            case 'Crypt-Password':
+                $data['value'] = crypt($request->value, '$1$'.uniqid());
+                break;
+            case 'Auth-Type':
+                $data['value'] = 'Reject';
+                break;
+            default:
+                return redirect('admin/radius/users')->with('flash_message', 'Something Wrong !');
+        }       
 
-        // $user = User::findOrFail($id);
-        // $user->update($data);
-        // return redirect('admin/users')->with('flash_message', 'User updated!');
+        $data['op'] = ':=';
+
+        $radius_user = Radius::findOrFail($id);
+        $radius_user->update($data);
+        return redirect('admin/radius/users')->with('flash_message', 'Radius User updated !');
     }
 
     /**
@@ -125,8 +177,7 @@ class RadCheckController extends Controller
      */
     public function destroy($id)
     {
-        // User::destroy($id);
-
-        // return redirect('admin/users')->with('flash_message', 'User deleted!');
+        Radius::destroy($id);
+        return redirect('admin/radius/users')->with('flash_message', 'User deleted !');
     }
 }

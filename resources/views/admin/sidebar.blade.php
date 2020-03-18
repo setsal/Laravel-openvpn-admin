@@ -13,7 +13,7 @@
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" href="/admin/radius/users">
-                                    Radius
+                                    Radius Users
                                 </a>
                             </li>
                     </ul>
